@@ -8,6 +8,15 @@ interface IosCapabilities {
   requestPermission: (type: 'camera' | 'microphone' | 'motion') => Promise<boolean>;
 }
 
+// Define the DeviceMotionEvent interface extension for iOS
+interface DeviceMotionEventIOS extends DeviceMotionEvent {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
+interface DeviceMotionEventIOSConstructor {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
 export const useIosCapabilities = (): IosCapabilities => {
   const [hasCamera, setHasCamera] = useState(false);
   const [hasMicrophone, setHasMicrophone] = useState(false);
@@ -54,8 +63,11 @@ export const useIosCapabilities = (): IosCapabilities => {
           return true;
 
         case 'motion':
-          if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            const permission = await DeviceMotionEvent.requestPermission();
+          // Cast to our extended interface
+          const DeviceMotionEventIOS = DeviceMotionEvent as unknown as DeviceMotionEventIOSConstructor;
+          
+          if (typeof DeviceMotionEventIOS.requestPermission === 'function') {
+            const permission = await DeviceMotionEventIOS.requestPermission();
             const granted = permission === 'granted';
             setHasMotion(granted);
             return granted;
