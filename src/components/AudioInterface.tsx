@@ -22,18 +22,6 @@ const AudioInterface = () => {
     });
   };
 
-  const handleCameraPress = async () => {
-    if (!hasCamera) {
-      const granted = await requestPermission('camera');
-      if (!granted) return;
-    }
-    
-    toast({
-      title: "Camera Access",
-      description: "Camera functionality will be implemented in the next update.",
-    });
-  };
-
   return (
     <div className={`floating-card ${isWatchSize ? 'p-2' : 'p-6'} space-y-2`}>
       <div className="flex items-center justify-between">

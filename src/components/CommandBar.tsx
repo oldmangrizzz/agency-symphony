@@ -4,7 +4,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 const CommandBar = () => {
   const { toast } = useToast();
-  const isWatchSize = window.innerWidth < 200; // Apple Watch screen detection
+  const isWatchSize = window.innerWidth < 200;
 
   const handleVoiceCommand = () => {
     toast({
